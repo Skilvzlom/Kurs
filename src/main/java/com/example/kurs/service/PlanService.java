@@ -8,27 +8,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Сервисный слой у модели
+ */
 @Service
 public class PlanService {
 
     private final PlanRepository planRepository;
     private final AircraftRepository aircraftRepository;
-    private final NavigationDataRepository navigationDataRepository;
-    private final WeatherForecastsRepository weatherForecastsRepository;
-    private final FuelRequirementsRepository fuelRequirementsRepository;
+
 
     @Autowired
-    public PlanService(PlanRepository planRepository, AircraftRepository aircraftRepository, NavigationDataRepository navigationDataRepository,
-                       WeatherForecastsRepository weatherForecastsRepository, FuelRequirementsRepository fuelRequirementsRepository) {
+    public PlanService(PlanRepository planRepository, AircraftRepository aircraftRepository) {
         this.planRepository = planRepository;
         this.aircraftRepository = aircraftRepository;
-        this.navigationDataRepository = navigationDataRepository;
-        this.weatherForecastsRepository = weatherForecastsRepository;
-        this.fuelRequirementsRepository = fuelRequirementsRepository;
     }
 
     public void addAircraft(Aircraft aircraft) {
         aircraftRepository.save(aircraft);
+    }
+
+    public Aircraft getAircraftById(Long id) {
+        return aircraftRepository.getById(id);
     }
 
     public void addFlightPlan(FlightRoutes flightRoutes) {
@@ -42,5 +43,10 @@ public class PlanService {
     public List<FlightRoutes> findAll() {
         return planRepository.findAll();
     }
+
+    public List<Aircraft> findAllPlanes() {
+        return aircraftRepository.findAll();
+    }
+
 
 }

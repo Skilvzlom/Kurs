@@ -1,10 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авиапланы и Самолёты</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Подключаем jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Подключаем Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+
+<div class="container mt-5">
+
+    <!-- Кнопки для открытия модальных окон -->
+    <h2>Информация о полётах и самолётах</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#flightPlansModal">Планы полётов</button>
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#aircraftsModal">Самолёты в базе</button>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAircraftModal">Добавить самолёт</button>
+    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addFlightPlanModal">Добавить план полёта</button>
+
+    <!-- Модальное окно для планов полёта -->
+    <div class="modal fade" id="flightPlansModal" tabindex="-1" aria-labelledby="flightPlansModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="flightPlansModalLabel">Планы полётов</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="flightPlanList">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для самолётов в базе -->
+    <div class="modal fade" id="aircraftsModal" tabindex="-1" aria-labelledby="aircraftsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aircraftsModalLabel">Самолёты в базе</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="aircraftBase" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления самолёта -->
+    <div class="modal fade" id="addAircraftModal" tabindex="-1" aria-labelledby="addAircraftModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAircraftModalLabel">Добавить новый самолёт</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAircraftForm">
+                        <div class="mb-3">
+                            <label for="aircraftRegistration" class="form-label">Регистрация самолёта</label>
+                            <input type="text" class="form-control" id="aircraftRegistration" name="aircraftRegistration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="maxTakeoffWeight" class="form-label">Максимальная взлётная масса</label>
+                            <input type="number" class="form-control" id="maxTakeoffWeight" name="maxTakeoffWeight" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="maxCruiseSpeed" class="form-label">Максимальная скорость</label>
+                            <input type="number" class="form-control" id="maxCruiseSpeed" name="maxCruiseSpeed" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aircraftCapacity" class="form-label">Вместимость</label>
+                            <input type="number" class="form-control" id="aircraftCapacity" name="aircraftCapacity" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aircraftType" class="form-label">Тип самолёта</label>
+                            <input type="text" class="form-control" id="aircraftType" name="aircraftType" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Добавить самолёт</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления плана полёта -->
+    <div class="modal fade" id="addFlightPlanModal" tabindex="-1" aria-labelledby="addFlightPlanModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFlightPlanModalLabel">Добавить новый план полёта</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addFlightPlanForm">
+                        <div class="mb-3">
+                            <label for="flightDeparture" class="form-label">Место отправления</label>
+                            <input type="text" class="form-control" id="flightDeparture" name="departureAirport" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="flightArrival" class="form-label">Место назначения</label>
+                            <input type="text" class="form-control" id="flightArrival" name="arrivalAirport" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="departureTime" class="form-label">Дата вылета</label>
+                            <input type="datetime-local" class="form-control" id="departureTime" name="departureTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="arrivalTime" class="form-label">Дата прилёта</label>
+                            <input type="datetime-local" class="form-control" id="arrivalTime" name="arrivalTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="routeLength" class="form-label">Длина маршрута</label>
+                            <input type="number" class="form-control" id="routeLength" min="0" name="routeLength" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="flightPlan" class="form-label">План полёта (Описание и промежуточные точки)</label>
+                            <input type="text" class="form-control" id="flightPlan" name="flightPlan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aircraftPlanType" class="form-label">Тип самолёта</label>
+                            <select id="aircraftPlanType" class="form-control" name="aircraftId">
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Добавить план</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/updatePlane.js"></script>
+<script src="/js/updateFlightPlan.js"></script>
+<script src="/js/addPlane.js"></script>
+<script src="/js/addFlightPlan.js"></script>
 
 </body>
 </html>
